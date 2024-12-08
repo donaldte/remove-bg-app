@@ -8,7 +8,7 @@
 ### Vidéo de démonstration
 
 <video width="100%" controls>
-  <source src="https://github-production-user-asset-6210df.s3.amazonaws.com/81464575/393558594-ab248908-abd4-4032-a908-6334c117d85c.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20241208%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241208T022107Z&X-Amz-Expires=300&X-Amz-Signature=c69fcd04a799104d138003ce68f679c7c2595a12aa22dbc9326054a5186c3375&X-Amz-SignedHeaders=host" type="video/mp4">
+  <source src="https://github-production-user-asset-6210df.s3.amazonaws.com/81464575/393558594-ab248908-abd4-4032-a908-6334c117d85c.mp4" type="video/mp4">
   Votre navigateur ne supporte pas la lecture vidéo.
 </video>
 
