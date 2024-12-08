@@ -6,11 +6,8 @@
 
 
 ### Vidéo de démonstration
+[![Vidéo de démonstration](https://via.placeholder.com/400x200.png?text=Video+Demo)](https://github-production-user-asset-6210df.s3.amazonaws.com/81464575/393558594-ab248908-abd4-4032-a908-6334c117d85c.mp4)
 
-<video width="100%" controls>
-  <source src="https://github-production-user-asset-6210df.s3.amazonaws.com/81464575/393558594-ab248908-abd4-4032-a908-6334c117d85c.mp4" type="video/mp4">
-  Votre navigateur ne supporte pas la lecture vidéo.
-</video>
 
 
 **Remove BG App** est une application web développée avec Django qui permet de supprimer l'arrière-plan des images et de personnaliser le fond avec une couleur de votre choix. Elle utilise la bibliothèque `rembg` pour le traitement d'image.
