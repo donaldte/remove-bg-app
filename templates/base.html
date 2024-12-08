@@ -1,0 +1,22 @@
+{% include 'includes/_header.html' %}
+<body>
+
+{% include 'includes/_navbar.html' %}
+
+<!-- Hero Section -->
+{% include 'includes/_hero.html' %}
+
+<!-- Main Content -->
+<div class="container mt-5">
+    {% block content %}
+    <!-- Contenu spécifique à la page -->
+    {% endblock %}
+</div>
+
+{% include 'includes/_footer.html' %}
+
+{% include 'includes/_js.html' %}
+
+{% block js %}{% endblock %}
+</body>
+</html>

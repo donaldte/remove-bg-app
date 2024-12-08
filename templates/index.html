@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - Remove BG{% endblock %}
+
+{% block content %}
+<div id="upload" class="text-center">
+    <h2 class="mt-4">Téléchargez votre image</h2>
+    <p class="lead">Obtenez une image sans arrière-plan ou personnalisez avec une couleur.</p>
+    <form id="image-form" method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="file" id="image" name="image" class="form-control" accept="image/*" required>
+        </div>
+        <div class="mb-3">
+            <label for="background_color" class="form-label">Choisissez une couleur d'arrière-plan (optionnel)</label>
+            <input type="color" id="background_color" name="background_color" class="form-control" value="#FFFFFF">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg mt-2">Traitement</button>
+    </form>
+    
+    <!-- Bloc de prévisualisation -->
+    <div id="preview-container" class="mt-4" style="display: none;">
+        <h3>Prévisualisation de l'image</h3>
+        <img id="preview-image" src="" alt="Prévisualisation" class="img-fluid" style="max-width: 100%; max-height: 400px;">
+    </div>
+
+    <!-- Loader pendant le traitement -->
+    <div id="loader" class="text-center mt-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+        <p class="mt-2">Traitement en cours, veuillez patienter...</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    // Prévisualisation de l'image téléchargée
+    document.getElementById('image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewContainer = document.getElementById('preview-container');
+                const previewImage = document.getElementById('preview-image');
+                previewImage.src = e.target.result; // Afficher l'image dans la balise <img>
+                previewContainer.style.display = 'block'; // Rendre visible le conteneur de prévisualisation
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Gestion de la soumission du formulaire avec loader SweetAlert
+    document.getElementById('image-form').onsubmit = async function(event) {
+        event.preventDefault(); // Empêche la soumission classique
+
+        // Afficher le loader SweetAlert
+        Swal.fire({
+            title: 'Traitement en cours...',
+            text: 'Veuillez patienter pendant que votre image est traitée.',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch("", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.processed_image) {
+                // Masquer le loader SweetAlert
+                Swal.close();
+
+                // Afficher l'image traitée
+                const processedContainer = document.getElementById('preview-container');
+                const processedImage = document.getElementById('preview-image');
+                processedImage.src = result.processed_image;
+                processedContainer.style.display = 'block';
+
+                // SweetAlert : Succès
+                Swal.fire({
+                    title: 'Succès!',
+                    text: 'Votre image a été traitée avec succès.',
+                    icon: 'success',
+                    confirmButtonText: 'Télécharger',
+                }).then(() => {
+                    // Téléchargement de l'image
+                    const link = document.createElement('a');
+                    link.href = result.processed_image;
+                    link.download = 'processed_image.png';
+                    link.click();
+                });
+            } else if (result.error) {
+                // Masquer le loader et afficher une erreur SweetAlert
+                Swal.fire({
+                    title: 'Erreur!',
+                    text: result.error,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        } catch (error) {
+            // Masquer le loader en cas d'erreur et afficher une alerte
+            Swal.fire({
+                title: 'Erreur!',
+                text: 'Une erreur est survenue pendant le traitement. Veuillez réessayer.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    };
+</script>
+{% endblock %}
